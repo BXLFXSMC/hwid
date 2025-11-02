@@ -1,1 +1,72 @@
-ba1978e65fe588cbbf7103065d548c25
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的世界文件分享站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen m-0 p-4 font-sans">
+    <!-- 页面容器 -->
+    <div class="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
+        <h1 class="text-2xl font-bold text-gray-800 mb-8">我的世界文件分享</h1>
+        
+        <!-- 按钮区域 -->
+        <div class="flex flex-col gap-4" id="buttonContainer">
+            <!-- 上传按钮（含文件选择功能） -->
+            <label class="cursor-pointer">
+                <span class="inline-block bg-blue-500 text-white py-3 px-6 rounded-md font-medium hover:bg-blue-600 transition-colors">
+                    上传我的世界文件
+                </span>
+                <input type="file" class="hidden" id="fileUpload" accept=".mcworld,.zip,.schematic">
+            </label>
+
+            <!-- 下载按钮（初始禁用状态） -->
+            <button id="downloadBtn" class="bg-gray-400 text-white py-3 px-6 rounded-md font-medium cursor-not-allowed" disabled>
+                未上传文件，无法下载
+            </button>
+        </div>
+
+        <!-- 上传成功提示（初始隐藏） -->
+        <div id="successTip" class="mt-4 text-green-500 font-medium hidden">
+            ✅ 文件上传成功！可点击下载按钮获取
+        </div>
+    </div>
+
+    <script>
+        // 获取元素
+        const fileUpload = document.getElementById('fileUpload');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const buttonContainer = document.getElementById('buttonContainer');
+        const successTip = document.getElementById('successTip');
+
+        // 监听文件上传选择
+        fileUpload.addEventListener('change', function(e) {
+            const selectedFile = e.target.files[0];
+            if (selectedFile) {
+                // 模拟上传成功（实际项目需对接后端接口）
+                setTimeout(() => {
+                    // 隐藏上传按钮
+                    fileUpload.parentElement.style.display = 'none';
+                    // 显示成功提示
+                    successTip.classList.remove('hidden');
+                    // 更新下载按钮状态（关联上传的文件，实际需用后端返回的下载链接）
+                    downloadBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    downloadBtn.classList.add('bg-green-500', 'hover:bg-green-600', 'transition-colors');
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = `下载：${selectedFile.name}`;
+                    
+                    // 下载功能（实际需替换为后端提供的文件下载链接）
+                    downloadBtn.addEventListener('click', function() {
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = URL.createObjectURL(selectedFile); // 仅前端模拟，实际用后端链接
+                        downloadLink.download = selectedFile.name;
+                        downloadLink.click();
+                        URL.revokeObjectURL(downloadLink.href);
+                    });
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
