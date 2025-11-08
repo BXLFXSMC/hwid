@@ -3,70 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的世界文件分享站</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen m-0 p-4 font-sans">
-    <!-- 页面容器 -->
-    <div class="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
-        <h1 class="text-2xl font-bold text-gray-800 mb-8">我的世界文件分享</h1>
+    <title>BlockTool 下载</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-        <!-- 按钮区域 -->
-        <div class="flex flex-col gap-4" id="buttonContainer">
-            <!-- 上传按钮（含文件选择功能） -->
-            <label class="cursor-pointer">
-                <span class="inline-block bg-blue-500 text-white py-3 px-6 rounded-md font-medium hover:bg-blue-600 transition-colors">
-                    上传我的世界文件
-                </span>
-                <input type="file" class="hidden" id="fileUpload" accept=".mcworld,.zip,.schematic">
-            </label>
-
-            <!-- 下载按钮（初始禁用状态） -->
-            <button id="downloadBtn" class="bg-gray-400 text-white py-3 px-6 rounded-md font-medium cursor-not-allowed" disabled>
-                未上传文件，无法下载
-            </button>
-        </div>
-
-        <!-- 上传成功提示（初始隐藏） -->
-        <div id="successTip" class="mt-4 text-green-500 font-medium hidden">
-            ✅ 文件上传成功！可点击下载按钮获取
-        </div>
-    </div>
-
-    <script>
-        // 获取元素
-        const fileUpload = document.getElementById('fileUpload');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const buttonContainer = document.getElementById('buttonContainer');
-        const successTip = document.getElementById('successTip');
-
-        // 监听文件上传选择
-        fileUpload.addEventListener('change', function(e) {
-            const selectedFile = e.target.files[0];
-            if (selectedFile) {
-                // 模拟上传成功（实际项目需对接后端接口）
-                setTimeout(() => {
-                    // 隐藏上传按钮
-                    fileUpload.parentElement.style.display = 'none';
-                    // 显示成功提示
-                    successTip.classList.remove('hidden');
-                    // 更新下载按钮状态（关联上传的文件，实际需用后端返回的下载链接）
-                    downloadBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                    downloadBtn.classList.add('bg-green-500', 'hover:bg-green-600', 'transition-colors');
-                    downloadBtn.disabled = false;
-                    downloadBtn.textContent = `下载：${selectedFile.name}`;
-                    
-                    // 下载功能（实际需替换为后端提供的文件下载链接）
-                    downloadBtn.addEventListener('click', function() {
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = URL.createObjectURL(selectedFile); // 仅前端模拟，实际用后端链接
-                        downloadLink.download = selectedFile.name;
-                        downloadLink.click();
-                        URL.revokeObjectURL(downloadLink.href);
-                    });
-                }, 800);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #0078d4;
+        }
+        
+        h1 {
+            color: #0078d4;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        
+        .description {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            text-align: justify;
+            color: #555;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .download-button {
+            display: inline-block;
+            background-color: #0078d4;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 120, 212, 0.3);
+        }
+        
+        .download-button:hover {
+            background-color: #005a9e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 120, 212, 0.4);
+        }
+        
+        .download-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 120, 212, 0.5);
+        }
+        
+        .file-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .features {
+            margin: 2rem 0;
+        }
+        
+        .features h2 {
+            color: #0078d4;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .features ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .features li:before {
+            content: '✓';
+            color: #0078d4;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
             }
-        });
-    </script>
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .download-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BlockTool</h1>
+            <p>专业、高效的工具软件</p>
+        </header>
+        
+        <div class="description">
+            <p>BlockTool是一款功能强大的工具软件，专为满足您的日常工作需求而设计。它提供了直观的界面和丰富的功能，帮助您更高效地完成任务。无论您是专业用户还是初学者，BlockTool都能为您提供便捷的操作体验。</p>
+        </div>
+        
+        <div class="features">
+            <h2>主要特点</h2>
+            <ul>
+                <li>简洁直观的用户界面</li>
+                <li>高效稳定的性能表现</li>
+                <li>全面的功能支持</li>
+                <li>定期更新和优化</li>
+                <li>兼容多种Windows系统版本</li>
+            </ul>
+        </div>
+        
+        <div class="download-section">
+            <h2>立即下载</h2>
+            <a href="resources/BlockTool.exe" class="download-button" download>下载 BlockTool</a>
+            <p class="file-info">文件名: BlockTool.exe | 文件大小: 100 MB | 适用系统: Windows</p>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 BlockTool. 保留所有权利。</p>
+        </footer>
+    </div>
 </body>
 </html>
