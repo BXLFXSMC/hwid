@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlockTools 下载</title>
+    <title>资源下载中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -21,7 +22,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
             background-color: white;
@@ -47,76 +48,111 @@
         .description {
             margin-bottom: 2rem;
             font-size: 1.1rem;
-            text-align: justify;
+            text-align: center;
             color: #555;
         }
         
-        .download-section {
+        .search-container {
+            margin-bottom: 2rem;
             text-align: center;
-            margin: 2rem 0;
-            padding: 2rem;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #eaeaea;
         }
         
-        .download-button {
+        .search-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: #0078d4;
+        }
+        
+        .files-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .file-item {
+            background-color: #f9f9f9;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .file-icon {
+            font-size: 1.8rem;
+            color: #0078d4;
+            margin-right: 1rem;
+        }
+        
+        .file-info h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+            word-break: break-all;
+        }
+        
+        .file-details {
+            margin-top: auto;
+            padding-top: 0.8rem;
+            font-size: 0.85rem;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        .file-actions {
+            margin-top: 1rem;
+            text-align: right;
+        }
+        
+        .download-btn {
             display: inline-block;
             background-color: #0078d4;
             color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border: none;
             border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0, 120, 212, 0.3);
-        }
-        
-        .download-button:hover {
-            background-color: #005a9e;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 120, 212, 0.4);
-        }
-        
-        .download-button:active {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 120, 212, 0.5);
-        }
-        
-        .file-info {
-            margin-top: 1rem;
+            cursor: pointer;
             font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            background-color: #005a9e;
+        }
+        
+        .download-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .no-files {
+            text-align: center;
+            padding: 3rem 1rem;
             color: #666;
-        }
-        
-        .features {
-            margin: 2rem 0;
-        }
-        
-        .features h2 {
-            color: #0078d4;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-        
-        .features ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        
-        .features li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .features li:before {
-            content: '✓';
-            color: #0078d4;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
+            grid-column: 1 / -1;
         }
         
         footer {
@@ -138,9 +174,8 @@
                 font-size: 2rem;
             }
             
-            .download-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
+            .files-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -148,34 +183,157 @@
 <body>
     <div class="container">
         <header>
-            <h1>BlockTool</h1>
-            <p>专业、高效的工具软件</p>
+            <h1>资源下载中心</h1>
+            <p class="description">本页面提供资源文件的搜索和下载功能。请使用下方搜索框查找文件。</p>
         </header>
         
-        <div class="description">
-            <p>BlockTool是一款功能强大的工具软件，专为满足您的日常工作需求而设计。它提供了直观的界面和丰富的功能，帮助您更高效地完成任务。无论您是专业用户还是初学者，BlockTools都能为您提供便捷的操作体验。</p>
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="搜索文件名...">
         </div>
         
-        <div class="features">
-            <h2>主要特点</h2>
-            <ul>
-                <li>简洁直观的用户界面</li>
-                <li>高效稳定的性能表现</li>
-                <li>全面的功能支持</li>
-                <li>定期更新和优化</li>
-                <li>兼容多种Windows系统版本</li>
-            </ul>
-        </div>
-        
-        <div class="download-section">
-            <h2>立即下载</h2>
-            <a href="BlockTools.exe" class="download-button" download>下载 BlockTools</a>
-            <p class="file-info">文件名: BlockTools.exe | 文件大小: 13 MB | 适用系统: Windows</p>
+        <div id="files-container" class="files-container">
+            <!-- 文件将通过JavaScript动态生成 -->
         </div>
         
         <footer>
-            <p>&copy; 2025 BlockTools. 保留所有权利。</p>
+            <p>&copy; 2024 资源下载中心. 保留所有权利。</p>
         </footer>
     </div>
+    
+    <script>
+        // 当前目录下的文件列表
+        const files = [
+            { name: "TS-古罗马斗兽场.txt", path: "TS-古罗马斗兽场.txt", size: "8.7 KB", date: "2024-07-01" },
+            { name: "TS-城堡主城需常加载.txt", path: "TS-城堡主城需常加载.txt", size: "1.2 KB", date: "2024-07-01" },
+            { name: "TS-大本钟素晴.txt", path: "TS-大本钟素晴.txt", size: "5.4 KB", date: "2024-07-01" },
+            { name: "TS-天安门.txt", path: "TS-天安门.txt", size: "3.8 KB", date: "2024-07-01" },
+            { name: "TS-巨大化房间.txt", path: "TS-巨大化房间.txt", size: "2.1 KB", date: "2024-07-01" },
+            { name: "TS-白宫-区块化-区块数量-30-区块大小-16x-模式-任意坐标.txt", path: "TS-白宫-区块化-区块数量-30-区块大小-16x-模式-任意坐标.txt", size: "9.6 KB", date: "2024-07-01" },
+            { name: "TS-素晴story天空之城.txt", path: "TS-素晴story天空之城.txt", size: "4.3 KB", date: "2024-07-01" },
+            { name: "TS-部落小主城.txt", path: "TS-部落小主城.txt", size: "6.2 KB", date: "2024-07-01" },
+            { name: "冰之王国.希哦.txt", path: "冰之王国.希哦.txt", size: "7.5 KB", date: "2024-07-01" },
+            { name: "登入主城by胡桃.txt", path: "登入主城by胡桃.txt", size: "3.9 KB", date: "2024-07-01" }
+        ];
+        
+        // HTML转义函数
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // 渲染文件列表
+        function renderFiles(filesList) {
+            const container = document.getElementById('files-container');
+            container.innerHTML = '';
+            
+            if (filesList.length === 0) {
+                container.innerHTML = '<div class="no-files"><p>没有找到匹配的文件</p></div>';
+                return;
+            }
+            
+            // 为每个文件创建DOM元素
+            filesList.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                // 文件扩展名
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                
+                // 设置图标和样式
+                fileItem.innerHTML = `
+                    <div class="file-header">
+                        <div class="file-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="file-info">
+                            <h3>${escapeHtml(file.name)}</h3>
+                        </div>
+                    </div>
+                    <div class="file-details">
+                        <p>文件大小: ${file.size}</p>
+                        <p>修改日期: ${file.date}</p>
+                    </div>
+                    <div class="file-actions">
+                        <button class="download-btn" data-filepath="${encodeURI(file.path)}" data-filename="${escapeHtml(file.name)}">
+                            <i class="fas fa-download"></i> 下载
+                        </button>
+                    </div>
+                `;
+                
+                // 添加下载点击事件处理
+                const downloadBtn = fileItem.querySelector('.download-btn');
+                downloadBtn.addEventListener('click', function() {
+                    // 为下载按钮添加点击动画
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                    
+                    // 获取文件路径和文件名
+                    const filePath = this.getAttribute('data-filepath');
+                    const fileName = this.getAttribute('data-filename');
+                    
+                    // 使用简单可靠的a标签直接下载方法
+                    try {
+                        // 创建a标签元素
+                        const link = document.createElement('a');
+                        
+                        // 设置文件路径和下载属性
+                        // 注意：这里不使用encodeURI，直接使用原始文件路径
+                        link.href = filePath;
+                        link.download = fileName; // 设置下载文件名
+                        link.style.display = 'none';
+                        
+                        // 添加到DOM
+                        document.body.appendChild(link);
+                        
+                        // 触发点击事件
+                        link.click();
+                        
+                        // 清理
+                        setTimeout(() => {
+                            document.body.removeChild(link);
+                        }, 100);
+                    } catch (e) {
+                        console.error('下载错误:', e);
+                        alert('文件下载出错，请稍后重试');
+                    }
+                });
+                
+                container.appendChild(fileItem);
+            });
+        }
+        
+        // 搜索功能
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    renderFiles(files);
+                    return;
+                }
+                
+                // 过滤文件
+                const filteredFiles = files.filter(file => 
+                    file.name.toLowerCase().includes(searchTerm)
+                );
+                
+                renderFiles(filteredFiles);
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化时渲染所有文件
+            renderFiles(files);
+            
+            // 设置搜索功能
+            setupSearch();
+        });
+    </script>
 </body>
 </html>
